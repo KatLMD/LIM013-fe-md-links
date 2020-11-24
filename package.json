@@ -31,6 +31,8 @@
     "@babel/preset-env": "^7.12.1"
   },
   "dependencies": {
+    "get-the-link-markdown": "^1.0.1",
+    "linkinmark": "^1.0.5",
     "markdown-link-extractor": "^1.2.6",
     "marked": "^1.2.3"
   }

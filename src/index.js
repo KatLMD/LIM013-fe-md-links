@@ -1,41 +1,45 @@
 import path from "path"
 import fs from "fs";
-import { options } from "marked";
-
-const markdownLinkExtractor = require('markdown-link-extractor');
+import markdownLinkExtractor from "./linkextractor.js";
 
 const ruta= process.argv[2] //test/prueba-tests/test.md
-console.log(5,ruta)
 
 const opcion1= process.argv[3]
 const opcion2= process.argv[4]
-console.log(9,opcion1, opcion2);
 
 
 if(!opcion1){
+  // ./some/example.md http://algo.com/2/3/ Link a algo
   console.log('no hay opciones');
   let archivo = fs.readFileSync(ruta, 'utf-8');
+  const links= markdownLinkExtractor(archivo);
+  for (const link of links) {
+    console.log(ruta,link.href,link.text);
+  }
  
-  
-  
-  
-  const links = markdownLinkExtractor(archivo);
-  console.log(22, archivo)
-  links.forEach((link ,a)=> {
-    console.log(24,link,a);
-  });
-
 }else{
   if(opcion1== "--validate"){
+    // $ md-links ./some/example.md --validate
+    // ./some/example.md http://algo.com/2/3/ ok 200 Link a algo
     console.log("es valida")
-    if(opcion2== "--stats"){
+
+    
+    /*if(opcion2== "--stats"){
       console.log("es stas")
-    }
+    }*/
   }
+
   if(opcion1== "--stats"){
-    console.log("es valida")
+    /* $ md-links ./some/example.md --stats
+      Total: 3
+      Unique: 3 */
+    console.log("es stas")
     if(opcion2== "--validate"){
-      console.log("es stas")
+    /* $ md-links ./some/example.md --stats --validate
+    Total: 3
+    Unique: 3
+    Broken: 1 */
+      console.log("es valida")
     }
   }
 } 
