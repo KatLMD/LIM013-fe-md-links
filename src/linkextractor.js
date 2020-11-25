@@ -26,7 +26,7 @@
       //return JSON.stringify(result, null, ' ');
       return result
     } else {
-      return ('El texto ingresado contiene un error, por favor corríjalo  e intente nuevamente');
+      return ('El texto ingresado contiene un error, por favor corríjalo e intente nuevamente');
     };
   };
   

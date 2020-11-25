@@ -1,6 +1,7 @@
-import path from "path"
+//import path from "path"
 import fs from "fs";
 import markdownLinkExtractor from "./linkextractor.js";
+var https = require('https');
 
 const ruta= process.argv[2] //test/prueba-tests/test.md
 
@@ -16,13 +17,24 @@ if(!opcion1){
   for (const link of links) {
     console.log(ruta,link.href,link.text);
   }
- 
+
 }else{
   if(opcion1== "--validate"){
     // $ md-links ./some/example.md --validate
     // ./some/example.md http://algo.com/2/3/ ok 200 Link a algo
     console.log("es valida")
-
+    let archivo = fs.readFileSync(ruta, 'utf-8');
+    const links= markdownLinkExtractor(archivo);
+    for (const link of links) {
+      let respuesta = https.get(link.href, (res) =>{
+        console.log("statusCode: ", res.statusCode); 
+        return res.statusCode
+      }) // busca en internet 
+      .on('error', function(e) {
+        console.error(33,e);
+      }); // para que sirve
+     console.log('36',respuesta)
+    }
     
     /*if(opcion2== "--stats"){
       console.log("es stas")
@@ -47,6 +59,6 @@ if(!opcion1){
 
 
 
-/* let archivo = fs.readFileSync(ruta, 'utf-8');
 
-console.log(archivo) */
+
+
