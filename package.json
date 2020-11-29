@@ -35,6 +35,7 @@
     "linkinmark": "^1.0.5",
     "markdown-link-extractor": "^1.2.6",
     "marked": "^1.2.3",
+    "node-fetch": "^2.6.1",
     "request": "^2.81.0"
   }
 }

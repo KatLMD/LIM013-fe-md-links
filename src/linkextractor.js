@@ -1,8 +1,8 @@
-
-  
+  import fs from "fs";
   // Función que extrae links desde el string en formato Markdown:
-  const markdownLinkExtractor = function(markdown) {
+  const markdownLinkExtractor = function(ruta) {
     'use strict';
+    let markdown = fs.readFileSync(ruta, 'utf-8');
     const re = /!?\[(.*)\]\((.*?)\)/gi;  
   
     let matches = re.exec(markdown); // Cambio Método .match a método .exec() para poder sacar los corchetes
