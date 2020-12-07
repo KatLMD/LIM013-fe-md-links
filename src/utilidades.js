@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
-var https = require('https');
+import fs from "fs";
+import path from "path"
 export const verificarLink = (link)=>{
-  //return link
   return new Promise((resolve,reject)=>{
     fetch(link)
           .then((res)=>{
@@ -14,21 +14,29 @@ export const verificarLink = (link)=>{
             reject({
               err:err,
               status: 'no status',
-              statusText: 'FAIL',
+              statusText: 'fail',
             })
           })
   })  
 };
 
+export const obtenerArrayRutas = (ruta)=>{
+  let direcctory = fs.lstatSync(ruta).isDirectory() 
+  let res = [] ;
+  if(direcctory){
+    let allFiles = fs.readdirSync(ruta)
+    for (const file of allFiles) {
+      if(file.toLowerCase().endsWith('.md')){
+        res.push(path.join(ruta,file))
+      }
+    }
+  }else{
+    res = [ ruta]
+  }
+  if(path.isAbsolute(res[0])) {
+    console.log(38,path.resolve(res[0]));
+  }
+  return  res;
+};
 
-export const otraForma = (link)=>{
-  return new Promise((resolve,reject)=>{
-    https.get(link, (res) =>{
-      console.log("statusCode: ", res.statusCode); 
-      resolve(res.statusCode)
-    })  
-    .on('error', function(e) {
-      console.error(33,e);
-    });
-  })
-}
+

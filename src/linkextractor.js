@@ -3,6 +3,7 @@
   const markdownLinkExtractor = function(ruta) {
     'use strict';
     let markdown = fs.readFileSync(ruta, 'utf-8');
+
     const re = /!?\[(.*)\]\((.*?)\)/gi;  
   
     let matches = re.exec(markdown); // Cambio Método .match a método .exec() para poder sacar los corchetes
@@ -20,7 +21,11 @@
     if (text.length === href.length) {
       for (let i = 0; i < text.length; i++) {
         //const one = new Link(text[i], href[i]);
-        const one = {text:text[i], href:href[i]};
+        const one = {
+          text:text[i],
+           href:href[i]
+          };
+
         result.push(one);
       }
       //return JSON.stringify(result, null, ' ');

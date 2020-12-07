@@ -1,8 +1,9 @@
 {
-  "name": "proyecto-mdlinks12",
+  "name": "mdlink-kmd",
   "version": "1.0.0",
-  "description": "md",
-  "main": "index.js",
+  "description": "Módulo que lee y analiza archivos en formato Markdown, para verificar los links que contiene y reportar algunas estadísticas.",
+  "main": "src/index.js",
+  "bin": "src/index.js",
   "directories": {
     "test": "test"
   },
@@ -10,8 +11,9 @@
     "test": "jest --verbose--coverage",
     "start": "node src/index.js",
     "saludo": "node src/saludo.js",
-    "startb": "babel-node src/index.js",
-    "prueba": "babel-node src/index.js test/prueba-tests/test.md --validate"
+    "startb": "nodemon ./src/index.js  --exec babel-node --presets babel-presett-env",
+    "prueba": "node dist/index.js test/prueba-tests/test.md --stats",
+    "build": "babel src -d dist"
   },
   "repository": {
     "type": "git",
@@ -24,18 +26,18 @@
   },
   "homepage": "https://github.com/KatLMD/LIM013-fe-md-links#readme",
   "devDependencies": {
-    "eslint": "^7.13.0",
-    "jest": "^26.6.3",
+    "@babel/cli": "^7.12.8",
     "@babel/core": "^7.12.3",
     "@babel/node": "^7.12.6",
-    "@babel/preset-env": "^7.12.1"
+    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "eslint": "^7.13.0",
+    "jest": "^26.6.3"
   },
   "dependencies": {
-    "get-the-link-markdown": "^1.0.1",
-    "linkinmark": "^1.0.5",
-    "markdown-link-extractor": "^1.2.6",
     "marked": "^1.2.3",
     "node-fetch": "^2.6.1",
+    "nodemon": "^2.0.6",
     "request": "^2.81.0"
   }
 }
