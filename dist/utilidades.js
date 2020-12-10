@@ -3,11 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.obtenerArrayRutas = exports.verificarLink = void 0;
+exports.mdLink = exports.obtenerArrayRutas = exports.verificarLink = void 0;
 
 var _fs = _interopRequireDefault(require("fs"));
 
 var _path = _interopRequireDefault(require("path"));
+
+var _linkextractor = _interopRequireDefault(require("./linkextractor.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21,9 +23,9 @@ const verificarLink = link => {
         status: res.status
       });
     }).catch(err => {
-      reject({
+      resolve({
         err: err,
-        status: 'no status',
+        status: 404,
         statusText: 'fail'
       });
     });
@@ -36,7 +38,6 @@ const obtenerArrayRutas = ruta => {
   let direcctory = _fs.default.lstatSync(ruta).isDirectory();
 
   let res = [];
-  console.log(26, _path.default);
 
   if (direcctory) {
     let allFiles = _fs.default.readdirSync(ruta);
@@ -49,12 +50,58 @@ const obtenerArrayRutas = ruta => {
   } else {
     res = [ruta];
   }
+  /* if(path.isAbsolute(res[0])) {
+    console.log(38,path.resolve(res[0]));
+  } */
 
-  if (_path.default.isAbsolute(res[0])) {
-    console.log(38, _path.default.resolve(res[0]));
-  }
 
-  return [ruta, res];
+  return res;
 };
 
 exports.obtenerArrayRutas = obtenerArrayRutas;
+
+const mdLink = (rutaIngresada, options = {
+  validate: false
+}) => {
+  let arrayRutas = obtenerArrayRutas(rutaIngresada);
+  let arrayRespuesta = [];
+
+  for (const ruta of arrayRutas) {
+    console.log(10, arrayRutas);
+    const links = (0, _linkextractor.default)(ruta);
+
+    if (options.validate == false) {
+      // ./some/example.md http://algo.com/2/3/ Link a algo
+      console.log('no hay opciones');
+
+      for (const link of links) {
+        let objeto = {
+          path: ruta,
+          href: link.href,
+          text: link.text
+        };
+        arrayRespuesta.push(objeto);
+      }
+    } else {
+      if (options.validate) {
+        // $ md-links ./some/example.md --validate
+        // ./some/example.md http://algo.com/2/3/ ok 200 Link a algo
+        for (const link of links) {
+          let estado = verificarLink(link.href);
+          let objeto = {
+            path: ruta,
+            href: link.href,
+            text: link.text,
+            status: estado //promesa
+
+          };
+          arrayRespuesta.push(objeto);
+        }
+      }
+    }
+  }
+
+  return arrayRespuesta;
+};
+
+exports.mdLink = mdLink;

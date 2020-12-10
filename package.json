@@ -11,8 +11,7 @@
     "test": "jest --verbose--coverage",
     "start": "node src/index.js",
     "saludo": "node src/saludo.js",
-    "startb": "nodemon ./src/index.js  --exec babel-node --presets babel-presett-env",
-    "prueba": "node dist/index.js test/prueba-tests/test.md --stats",
+    "prueba": "node dist/index.js test/prueba-tests --validate",
     "build": "babel src -d dist"
   },
   "repository": {
