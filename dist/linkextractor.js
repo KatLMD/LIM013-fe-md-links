@@ -1,5 +1,10 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.markdownLinkExtractor = void 0;
+
 var _fs = _interopRequireDefault(require("fs"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -15,32 +20,24 @@ const markdownLinkExtractor = function (ruta) {
 
   let result = [];
   let text = [];
+  let href = [];
 
   do {
     let temp = matches[1];
     text.push(temp);
+    href.push(matches[2]);
   } while ((matches = re.exec(markdown)) !== null);
 
-  const reHref = /(https?|ftp):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gi;
-  let href = markdown.match(reHref);
-
-  if (text.length === href.length) {
-    for (let i = 0; i < text.length; i++) {
-      //const one = new Link(text[i], href[i]);
-      const one = {
-        text: text[i],
-        href: href[i]
-      };
-      result.push(one);
-    } //return JSON.stringify(result, null, ' ');
+  for (let i = 0; i < text.length; i++) {
+    const one = {
+      text: text[i],
+      href: href[i]
+    };
+    result.push(one);
+  } //return JSON.stringify(result, null, ' ');
 
 
-    return result;
-  } else {
-    return 'El texto ingresado contiene un error, por favor corríjalo e intente nuevamente';
-  }
-
-  ;
+  return result;
 };
 
-module.exports = markdownLinkExtractor;
+exports.markdownLinkExtractor = markdownLinkExtractor;

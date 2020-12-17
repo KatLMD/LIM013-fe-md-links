@@ -2,13 +2,15 @@
   "name": "mdlink-kmd",
   "version": "1.0.0",
   "description": "Módulo que lee y analiza archivos en formato Markdown, para verificar los links que contiene y reportar algunas estadísticas.",
-  "main": "src/index.js",
-  "bin": "src/index.js",
+  "main": "src/cli.js",
+  "bin": {
+    "mdlink": "dist/cli.js"
+  },
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "jest --verbose--coverage",
+    "test": "jest --verbose --coverage",
     "start": "node src/index.js",
     "saludo": "node src/saludo.js",
     "prueba": "node dist/index.js test/prueba-tests --validate",

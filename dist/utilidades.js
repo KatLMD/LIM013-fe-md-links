@@ -9,7 +9,7 @@ var _fs = _interopRequireDefault(require("fs"));
 
 var _path = _interopRequireDefault(require("path"));
 
-var _linkextractor = _interopRequireDefault(require("./linkextractor.js"));
+var _linkextractor = require("./linkextractor.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20,11 +20,12 @@ const verificarLink = link => {
     fetch(link).then(res => {
       resolve({
         href: link,
-        status: res.status
+        status: res.status,
+        statusText: 'ok'
       });
     }).catch(err => {
-      resolve({
-        err: err,
+      reject({
+        href: link,
         status: 404,
         statusText: 'fail'
       });
@@ -63,45 +64,55 @@ exports.obtenerArrayRutas = obtenerArrayRutas;
 const mdLink = (rutaIngresada, options = {
   validate: false
 }) => {
-  let arrayRutas = obtenerArrayRutas(rutaIngresada);
-  let arrayRespuesta = [];
+  if (rutaIngresada) {
+    if (_fs.default.existsSync(rutaIngresada)) {
+      /* console.log('The path exists.'); */
+      let arrayRutas = obtenerArrayRutas(rutaIngresada);
+      let arrayRespuesta = [];
 
-  for (const ruta of arrayRutas) {
-    console.log(10, arrayRutas);
-    const links = (0, _linkextractor.default)(ruta);
+      for (const ruta of arrayRutas) {
+        /* console.log(10, arrayRutas); */
+        const links = (0, _linkextractor.markdownLinkExtractor)(ruta);
 
-    if (options.validate == false) {
-      // ./some/example.md http://algo.com/2/3/ Link a algo
-      console.log('no hay opciones');
+        if (options.validate == false) {
+          // ./some/example.md http://algo.com/2/3/ Link a algo
 
-      for (const link of links) {
-        let objeto = {
-          path: ruta,
-          href: link.href,
-          text: link.text
-        };
-        arrayRespuesta.push(objeto);
-      }
-    } else {
-      if (options.validate) {
-        // $ md-links ./some/example.md --validate
-        // ./some/example.md http://algo.com/2/3/ ok 200 Link a algo
-        for (const link of links) {
-          let estado = verificarLink(link.href);
-          let objeto = {
-            path: ruta,
-            href: link.href,
-            text: link.text,
-            status: estado //promesa
+          /* console.log('no hay opciones'); */
+          for (const link of links) {
+            let objeto = {
+              path: ruta,
+              href: link.href,
+              text: link.text
+            };
+            arrayRespuesta.push(objeto);
+          }
+        } else {
+          if (options.validate) {
+            // $ md-links ./some/example.md --validate
+            // ./some/example.md http://algo.com/2/3/ ok 200 Link a algo
+            for (const link of links) {
+              let estado = verificarLink(link.href);
+              let objeto = {
+                path: ruta,
+                href: link.href,
+                text: link.text,
+                status: estado //promesa
 
-          };
-          arrayRespuesta.push(objeto);
+              };
+              arrayRespuesta.push(objeto);
+            }
+          }
         }
-      }
+      } // console.log(arrayRespuesta)
+
+
+      return arrayRespuesta;
+    } else {
+      return false;
     }
   }
 
-  return arrayRespuesta;
+  return false;
 };
 
 exports.mdLink = mdLink;
