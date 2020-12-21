@@ -416,4 +416,4 @@ si tienes dudas existenciales con respecto a estas decisiones. No existe una
   lines, y branches.
 * [ ] Pasa tests (y linters) (`npm test`).
 ## 9. Diagrama de Flujo
-[Diagrama de Flujo](https://drive.google.com/drive/folders/0ADjJzvH1t1R1Uk9PVA)
+[Diagrama de Flujo](https://app.diagrams.net/#G1elUUpgdHgwsarRT9wdIWXnGMM6ovaGjY)
