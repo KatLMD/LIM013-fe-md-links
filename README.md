@@ -10,6 +10,8 @@
 * [6. Entregables](#6-entregables)
 * [7. Pistas, tips y lecturas complementarias](#7-pistas-tips-y-lecturas-complementarias)
 * [8. Checklist](#8-checklist)
+* [9. Diagrama de flujo](#9-checklist)
+
 
 ***
 
@@ -413,3 +415,5 @@ si tienes dudas existenciales con respecto a estas decisiones. No existe una
 * [ ] Pruebas unitarias cubren un mínimo del 70% de statements, functions,
   lines, y branches.
 * [ ] Pasa tests (y linters) (`npm test`).
+## 9. Diagrama de Flujo
+[Diagrama de Flujo](https://drive.google.com/drive/folders/0ADjJzvH1t1R1Uk9PVA)
